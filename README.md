@@ -1,4 +1,4 @@
-### whiteboard
+### whiteboard ✍️
 This a whiteboard application using React.js and RxJs
 
 ## For more information about the tech stack visit:
