@@ -18,5 +18,6 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 You will need to have [nodeJs](https://nodejs.org/en/) (which comes with npm)
 
 - Run `npm install` 
-- Run `npm run dev`
+- Run `npm run client` to run the frontend/react
+- Run `npm run server` to run the backend
   
