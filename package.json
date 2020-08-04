@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -30,7 +31,7 @@
   "scripts": {
     "build": "npx webpack --mode development",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "client": "webpack-dev-server --mode development",
+    "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/server.js",
     "clean": "rm -rf node_modules"
   }
