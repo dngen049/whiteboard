@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { hot } from "react-hot-loader";
+
+import io from "socket.io-client";
+
 import styled from "styled-components";
+
 import "./App.css";
+
 import { Drawing } from "./components";
+
 const Title = styled.h1`
   font-size: 1.5em;
   text-align: center;
@@ -16,11 +22,19 @@ const Wrapper = styled.section`
 `;
 const App = (props) => {
   const [title, setTitle] = useState("Draw here");
+  const socketRef = useRef();
+
   useEffect(() => {
-    fetch("/api/hello")
+    fetch("/api")
       .then((res) => res.json())
       .then((data) => setTitle(data.message))
       .catch((e) => alert(e));
+
+    socketRef.current = io({ path: "/socket" }); // -> this will connect to the proxy
+    console.log(socketRef);
+    socketRef.current.on("Your id", (id) => {
+      console.log(id);
+    });
   }, []);
   return (
     <Wrapper>

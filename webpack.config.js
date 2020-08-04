@@ -33,6 +33,10 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       "/api": "http://localhost:8000",
+      "/socket": {
+        target: "http://localhost:8000",
+        ws: true,
+      },
     },
   },
   plugins: [
