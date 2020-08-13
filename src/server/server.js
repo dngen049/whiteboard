@@ -14,12 +14,19 @@ app.use("/", (req, res, next) => {
 const server = http.createServer(app);
 const io = socket(server, { path: "/socket" });
 
+const colors = ["red", "green", "blue"];
+let index = 0;
 io.on("connection", (socket) => {
-  console.log(socket.id);
-  socket.emit("Your id", socket.id);
-  // socket.on("send message", (body) => {
-  //   io.emit("message", body);
-  // });
+  const User = {
+    id: socket.id,
+    color: colors[index],
+  };
+  index = (index + 1) % colors.length;
+
+  socket.emit("Your id", User);
+  socket.on("onDrawing", (body) => {
+    io.emit("Drawing", body);
+  });
 });
 
 server.listen(8000, () => console.log("Server is running on port 8000"));

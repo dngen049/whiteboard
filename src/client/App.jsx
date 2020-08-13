@@ -23,26 +23,41 @@ const Wrapper = styled.section`
 const App = (props) => {
   const [title, setTitle] = useState("Draw here");
   const socketRef = useRef();
-
+  const [id, setId] = useState(null);
+  const [color, setColor] = useState(null);
+  const [coordinates, setCoordinates] = useState([]);
   useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setTitle(data.message))
-      .catch((e) => alert(e));
+    // fetch("/api");
+    // .then((res) => res.json())
+    // .then((data) => setTitle(data.message))
+    // .catch((e) => alert(e));
 
     socketRef.current = io({ path: "/socket" }); // -> this will connect to the proxy
     console.log(socketRef);
-    socketRef.current.on("Your id", (id) => {
-      console.log(id);
+    socketRef.current.on("Your id", (body) => {
+      console.log(body);
+      setId(body.id);
+      setColor(body.color);
+    });
+    socketRef.current.on("Drawing", (body) => {
+      setCoordinates([...coordinates, body]);
+      // console.log(body);
     });
   }, []);
+  const handleDrawing = (x1, y1, x2, y2, color) => {
+    socketRef.current.emit("onDrawing", { x1, y1, x2, y2, color });
+  };
   return (
     <Wrapper>
       <div>
         <Title>{title}</Title>
       </div>
       <div style={{ border: "1px solid black" }}>
-        <Drawing />
+        <Drawing
+          coordinates={coordinates}
+          color={color}
+          onDraw={handleDrawing}
+        />
       </div>
     </Wrapper>
   );
